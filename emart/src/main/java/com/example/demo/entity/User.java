@@ -7,7 +7,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -27,7 +26,7 @@ import lombok.Setter;
 @Builder
 @Table(name = "user")
 public class User implements UserDetails {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
@@ -37,14 +36,15 @@ public class User implements UserDetails {
 	private String email;
 	private String password;
 	private Role role;
-	
+
 	@Override
 	public String getUsername() {
 		return email;
 	}
-@Override
-public Collection<? extends GrantedAuthority> getAuthorities() {
-	return List.of(new SimpleGrantedAuthority(role.name()));
-}
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return List.of(new SimpleGrantedAuthority(role.name()));
+	}
 
 }

@@ -18,7 +18,7 @@ import com.example.demo.repository.DemoRepository;
 import com.example.demo.security.JwtTokenProvider;
 
 @Service
-public class DemoService {
+public class UserService {
 	
 	@Autowired
 	private DemoRepository repo;

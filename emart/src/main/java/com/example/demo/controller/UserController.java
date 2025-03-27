@@ -13,13 +13,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.dto.LoginDto;
 import com.example.demo.dto.UserDto;
 import com.example.demo.entity.User;
-import com.example.demo.service.DemoService;
+import com.example.demo.service.UserService;
 
 @RestController
-public class DemoController {
+public class UserController {
 	
 	@Autowired
-	DemoService demoService;
+	UserService demoService;
 
 	@GetMapping("/")
 	public String hello() {
