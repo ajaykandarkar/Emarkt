@@ -7,8 +7,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class EmartApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(EmartApplication.class, args);
-		
+		SpringApplication.run(EmartApplication.class, args);	
 	}
-
 }
