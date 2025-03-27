@@ -10,5 +10,4 @@ public class EmartApplication {
 		SpringApplication.run(EmartApplication.class, args);
 		System.out.println("Hello from git's development branch");
 	}
-
 }
