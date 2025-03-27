@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.dto.LoginDto;
 import com.example.demo.dto.UserDto;
 import com.example.demo.entity.User;
 import com.example.demo.service.DemoService;
@@ -40,5 +41,10 @@ public class DemoController {
 	public String createUser(@RequestBody UserDto userDto) {
 		demoService.createUser(userDto);
 		return "User created successsfully";
+	}
+	
+	@PostMapping("/login")
+	public String login(@RequestBody LoginDto loginDto) {
+		return demoService.login(loginDto);
 	}
 }
