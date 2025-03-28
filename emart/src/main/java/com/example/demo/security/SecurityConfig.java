@@ -56,8 +56,8 @@ public class SecurityConfig {
 	 @Bean
 		SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
 			  httpSecurity
-	          .cors(cors -> cors.configurationSource(corsConfigurationSource()))    // ✅ Enable CORS
-	          .csrf(csrf -> csrf.disable()) 										// ❌ Disable CSRF if not needed
+	          .cors(cors -> cors.configurationSource(corsConfigurationSource()))   
+	          .csrf(csrf -> csrf.disable()) 										
 	          .authorizeHttpRequests(authorize ->
 	                  authorize.requestMatchers("/login",
 	                		  					"/createUser",
@@ -80,11 +80,11 @@ public class SecurityConfig {
 	 @Bean
 	    CorsConfigurationSource corsConfigurationSource() {
 	        CorsConfiguration configuration = new CorsConfiguration();
-	        configuration.setAllowedOrigins(List.of("http://localhost:5173"));                   // ✅ Allow frontEnd origin
-	        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS")); // ✅ Allowed methods
-	        configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));           // ✅ Allow headers
-	        configuration.setAllowCredentials(true);                                             // ✅ Allow credentials like tokens & cookies
-	        configuration.setExposedHeaders(List.of("Authorization"));                           // ✅ Expose headers to frontEnd
+	        configuration.setAllowedOrigins(List.of("http://localhost:5173"));                   
+	        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS")); 
+	        configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));           
+	        configuration.setAllowCredentials(true);                                             
+	        configuration.setExposedHeaders(List.of("Authorization"));                           
 
 	        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 	        source.registerCorsConfiguration("/**", configuration);
