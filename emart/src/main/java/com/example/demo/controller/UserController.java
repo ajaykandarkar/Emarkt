@@ -32,7 +32,7 @@ public class UserController {
 	}
 	
 	@PutMapping("/updatesalary/{salary}/{id}")
-	public String updateSalary(@PathVariable("salary")  double salary,@PathVariable("id")   int id) {
+	public String updateSalary(@PathVariable("salary") double salary,@PathVariable("id") int id) {
 		demoService.updateSalary(salary,id);
 		return "Success";
 	}

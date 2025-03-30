@@ -60,5 +60,4 @@ public class JwtTokenProvider {
 			throw new Exception();
 		}
 	}
-	
 }
