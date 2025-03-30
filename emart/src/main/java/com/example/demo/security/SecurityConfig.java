@@ -51,7 +51,7 @@ public class SecurityConfig {
 		authenticationProvider.setUserDetailsService(userDetailsService);
 		authenticationProvider.setPasswordEncoder(passwordEncoder());
 		return authenticationProvider;
-	}
+	 }
 	 
 	 @Bean
 	 SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
