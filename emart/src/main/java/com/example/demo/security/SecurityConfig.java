@@ -41,9 +41,9 @@ public class SecurityConfig {
 	}
 	
 	 @Bean
-		AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
-			return configuration.getAuthenticationManager();
-		}
+	 AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
+		return configuration.getAuthenticationManager();
+	 }
 	 
 	 @Bean
 	 AuthenticationProvider authenticationProvider() {
@@ -54,21 +54,22 @@ public class SecurityConfig {
 	}
 	 
 	 @Bean
-		SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
+	 SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
 			  httpSecurity
-	          .cors(cors -> cors.configurationSource(corsConfigurationSource()))    // ✅ Enable CORS
-	          .csrf(csrf -> csrf.disable()) 										// ❌ Disable CSRF if not needed
+	          .cors(cors -> cors.configurationSource(corsConfigurationSource()))   
+	          .csrf(csrf -> csrf.disable()) 										
 	          .authorizeHttpRequests(authorize ->
 	                  authorize.requestMatchers("/login",
-	                		  					"/createUser",
-	                		  					"/api/user", 
-	                		  					"/api/user/login",
-	                		  					"/api/user/hello",
-	                		  					"/swagger-ui/**",
-	                		  					"/v3/api-docs/**",
-	                		  					"/api/forgotPassword/**")
+	                		  	    "/createUser",
+	                		  	    "/api/user", 
+	                		  	    "/api/user/login",
+	                		  	    "/api/user/hello",
+	                		  	    "/swagger-ui/**",
+	                		  	    "/v3/api-docs/**",
+	                		  	    "/api/forgotPassword/**")
 	                          .permitAll()
-	                          .anyRequest().authenticated()
+	                          .anyRequest()
+				  .authenticated()
 	          )
 	          .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 	          .authenticationProvider(authenticationProvider())
@@ -78,16 +79,16 @@ public class SecurityConfig {
 	 }
 	 
 	 @Bean
-	    CorsConfigurationSource corsConfigurationSource() {
+	 CorsConfigurationSource corsConfigurationSource() {
 	        CorsConfiguration configuration = new CorsConfiguration();
-	        configuration.setAllowedOrigins(List.of("http://localhost:5173"));                   // ✅ Allow frontEnd origin
-	        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS")); // ✅ Allowed methods
-	        configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));           // ✅ Allow headers
-	        configuration.setAllowCredentials(true);                                             // ✅ Allow credentials like tokens & cookies
-	        configuration.setExposedHeaders(List.of("Authorization"));                           // ✅ Expose headers to frontEnd
+	        configuration.setAllowedOrigins(List.of("http://localhost:5173"));                   
+	        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS")); 
+	        configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));           
+	        configuration.setAllowCredentials(true);                                             
+	        configuration.setExposedHeaders(List.of("Authorization"));                           
 
 	        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 	        source.registerCorsConfiguration("/**", configuration);
 	        return source;
-	    }
+	 }
 }
