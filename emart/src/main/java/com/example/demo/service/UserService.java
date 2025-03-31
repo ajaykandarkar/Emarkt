@@ -48,7 +48,11 @@ public class UserService {
     }
 
     public void createUser(UserDto userDto) {
-        User user = User.builder()
+        if (repo.findByEmail(userDto.getEmail()) != null) {
+            throw new UserNotFoundException("User with email " + userDto.getEmail() + " already exists");
+        }
+
+        User user = User.builder()   
                 .name(userDto.getName())
                 .age(userDto.getAge())
                 .salary(userDto.getSalary())
@@ -58,6 +62,7 @@ public class UserService {
                 .build();
         repo.save(user);
     }
+
 
     public String login(LoginDto loginDto) {
         Authentication authentication = authenticationManager.authenticate(

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.example.demo.dto.LoginDto;
 import com.example.demo.dto.LoginResponse;
+import com.example.demo.dto.UpddateSalaryResponse;
 import com.example.demo.dto.UserDto;
 import com.example.demo.entity.User;
 import com.example.demo.service.UserService;
@@ -32,12 +33,13 @@ public class UserController {
     }
 
     @PutMapping("/updatesalary/{salary}/{id}")
-    public ResponseEntity<String> updateSalary(@PathVariable("salary") double salary, @PathVariable("id") int id) {
+    public ResponseEntity<UpddateSalaryResponse> updateSalary(@PathVariable("salary") double salary, @PathVariable("id") int id) {
         try {
             demoService.updateSalary(salary, id);
-            return ResponseEntity.ok("Salary updated successfully");
+            return ResponseEntity.ok(new UpddateSalaryResponse("success", "salary update successful", LocalDateTime.now().toString()));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error updating salary: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                                 .body(new UpddateSalaryResponse("failure", "Error updating salary: " + e.getMessage(), LocalDateTime.now().toString()));
         }
     }
 

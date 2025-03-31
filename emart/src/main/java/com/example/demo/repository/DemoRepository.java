@@ -17,7 +17,9 @@ public interface DemoRepository extends JpaRepository<User, Integer> {
 	@Query(nativeQuery = true, value="update user u set u.salary=:salary where id=:id")
 	public void updateSalary(@Param("salary") double salary, @Param("id")int id); 
 	
+	
 	Optional<User> findByEmail(String email);
+	
 	
 
 }
