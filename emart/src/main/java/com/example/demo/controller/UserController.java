@@ -1,50 +1,53 @@
 package com.example.demo.controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import com.example.demo.dto.LoginDto;
+import com.example.demo.dto.LoginResponse;
+import com.example.demo.dto.UpddateSalaryResponse;
 import com.example.demo.dto.UserDto;
 import com.example.demo.entity.User;
 import com.example.demo.service.UserService;
 
 @RestController
 public class UserController {
-	
-	@Autowired
-	UserService demoService;
 
-	@GetMapping("/")
-	public String hello() {
-		return demoService.hello();
-	}
-	
-	@GetMapping("/getAll")
-	public List<User> getAll(){
-		return demoService.getAll();
-	}
-	
-	@PutMapping("/updatesalary/{salary}/{id}")
-	public String updateSalary(@PathVariable("salary")  double salary,@PathVariable("id")   int id) {
-		demoService.updateSalary(salary,id);
-		return "Success";
-	}
-	
-	@PostMapping("/createUser")
-	public String createUser(@RequestBody UserDto userDto) {
-		demoService.createUser(userDto);
-		return "User created successsfully";
-	}
-	
-	@PostMapping("/login")
-	public String login(@RequestBody LoginDto loginDto) {
-		return demoService.login(loginDto);
-	}
+    @Autowired
+    private UserService userService;
+
+    @GetMapping(value = "/", produces = "application/json")
+    public ResponseEntity<String> hello() {
+        return ResponseEntity.ok("{\"message\": \"" + userService.hello() + "\"}");
+    }
+
+    @GetMapping("/getAll")
+    public ResponseEntity<List<User>> getAll() {
+        List<User> users = userService.getAll();
+        return ResponseEntity.ok(users);
+    }
+
+    @PutMapping("/updatesalary/{salary}/{id}")
+    public ResponseEntity<UpddateSalaryResponse> updateSalary(@PathVariable("salary") double salary, @PathVariable("id") int id) {
+        userService.updateSalary(salary, id);
+        return ResponseEntity.ok(new UpddateSalaryResponse("success", "Salary update successful", LocalDateTime.now().toString()));
+    }
+
+    @PostMapping("/createUser")
+    public ResponseEntity<String> createUser(@RequestBody UserDto userDto) {
+        userService.createUser(userDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body("User created successfully");
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponse> login(@RequestBody LoginDto loginDto) {
+        LoginResponse response = userService.login(loginDto);
+        return ResponseEntity.ok(response);
+    }
+
 }
