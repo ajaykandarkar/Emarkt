@@ -12,9 +12,10 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder
 public class LoginResponse {
-	private String status;
-    private String message;
-    private String token;
-    private String timestamp;
+	  private String status;
+	    private String message;
+	    private String token;
+	    private String email;
+	    private String timestamp;
 
 }

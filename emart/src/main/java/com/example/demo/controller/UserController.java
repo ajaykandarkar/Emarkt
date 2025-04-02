@@ -19,48 +19,35 @@ import com.example.demo.service.UserService;
 public class UserController {
 
     @Autowired
-    private UserService demoService;
+    private UserService userService;
 
     @GetMapping(value = "/", produces = "application/json")
     public ResponseEntity<String> hello() {
-        return ResponseEntity.ok("{\"message\": \"" + demoService.hello() + "\"}");
+        return ResponseEntity.ok("{\"message\": \"" + userService.hello() + "\"}");
     }
 
     @GetMapping("/getAll")
     public ResponseEntity<List<User>> getAll() {
-        List<User> users = demoService.getAll();
+        List<User> users = userService.getAll();
         return ResponseEntity.ok(users);
     }
 
     @PutMapping("/updatesalary/{salary}/{id}")
     public ResponseEntity<UpddateSalaryResponse> updateSalary(@PathVariable("salary") double salary, @PathVariable("id") int id) {
-        try {
-            demoService.updateSalary(salary, id);
-            return ResponseEntity.ok(new UpddateSalaryResponse("success", "salary update successful", LocalDateTime.now().toString()));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                                 .body(new UpddateSalaryResponse("failure", "Error updating salary: " + e.getMessage(), LocalDateTime.now().toString()));
-        }
+        userService.updateSalary(salary, id);
+        return ResponseEntity.ok(new UpddateSalaryResponse("success", "Salary update successful", LocalDateTime.now().toString()));
     }
 
     @PostMapping("/createUser")
     public ResponseEntity<String> createUser(@RequestBody UserDto userDto) {
-        try {
-            demoService.createUser(userDto);
-            return ResponseEntity.status(HttpStatus.CREATED).body("User created successfully");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error creating user: " + e.getMessage());
-        }
+        userService.createUser(userDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body("User created successfully");
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginDto loginDto) {
-        try {
-            String token = demoService.login(loginDto);
-            return ResponseEntity.ok(new LoginResponse("success", "Login successful", token, LocalDateTime.now().toString()));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(new LoginResponse("failure", "Invalid credentials", null, LocalDateTime.now().toString()));
-        }
+    public ResponseEntity<LoginResponse> login(@RequestBody LoginDto loginDto) {
+        LoginResponse response = userService.login(loginDto);
+        return ResponseEntity.ok(response);
     }
+
 }

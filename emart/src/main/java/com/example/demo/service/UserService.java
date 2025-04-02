@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.dto.LoginDto;
+import com.example.demo.dto.LoginResponse;
 import com.example.demo.dto.UserDto;
 import com.example.demo.entity.Role;
 import com.example.demo.entity.User;
@@ -52,7 +54,7 @@ public class UserService {
             throw new UserNotFoundException("User with email " + userDto.getEmail() + " already exists");
         }
 
-        User user = User.builder()   
+        User user = User.builder()
                 .name(userDto.getName())
                 .age(userDto.getAge())
                 .salary(userDto.getSalary())
@@ -63,10 +65,13 @@ public class UserService {
         repo.save(user);
     }
 
-
-    public String login(LoginDto loginDto) {
+    public LoginResponse login(LoginDto loginDto) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword()));
-        return jwtTokenProvider.generateToken(authentication);
+
+        String token = jwtTokenProvider.generateToken(authentication);
+        return new LoginResponse("success", "Login successful", token, loginDto.getEmail(), LocalDateTime.now().toString());
     }
+
+
 }
